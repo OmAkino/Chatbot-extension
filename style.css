@@ -1,0 +1,35 @@
+.chatbot-container {
+    width: 350px;
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .chat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  #chat-box {
+    height: 300px;
+    overflow-y: auto;
+  }
+  
+  #toggle-btn {
+    line-height: 1;
+    padding: 0 8px;
+  }
+  
+  .input-group {
+    margin-top: 10px;
+  }
+  
