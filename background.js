@@ -1,5 +1,6 @@
+
 chrome.runtime.onInstalled.addListener(() => {
-  console.log("Extension Installed");
+  console.log("Extension installed successfully");
 });
 
 chrome.tabs.onActivated.addListener((activeInfo) => {
@@ -8,26 +9,32 @@ chrome.tabs.onActivated.addListener((activeInfo) => {
       console.error(chrome.runtime.lastError);
       return;
     }
+    
     if (tab && tab.url) {
-      chrome.storage.local.set({ currentURL: tab.url }, () => {
-        console.log("URL saved:", tab.url);
-      });
+      chrome.storage.local.set({ currentURL: tab.url });
     }
   });
 });
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === "insertText") {
-    chrome.storage.local.set(
-      {
-        selectedText: message.text,
-        currentURL: message.url,
-      },
-      () => {
-        chrome.runtime.sendMessage({ action: "updateChatbot" });
-      }
-    );
+    chrome.storage.local.set({
+      selectedText: message.text,
+      currentURL: message.url
+    }, () => {
+      chrome.tabs.query({}, (tabs) => {
+        tabs.forEach(tab => {
+          chrome.tabs.sendMessage(tab.id, {
+            action: "updateChatbot",
+            text: message.text
+          }).catch(error => {
+          });
+        });
+      });
+    });
   }
+  
+  return true;
 });
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
