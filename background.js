@@ -1,6 +1,4 @@
-// Listen for installation
 chrome.runtime.onInstalled.addListener(() => {
-    // Initialize default settings
     chrome.storage.local.set({
       'isEnabled': true,
       'selectedModel': 'gpt-3.5-turbo'

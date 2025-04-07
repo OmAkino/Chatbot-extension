@@ -1,11 +1,8 @@
-// Variables to track state
 let chatbotFrame = null;
 let isFrameVisible = false;
 let selectionPopup = null;
 
-// Create and inject the chatbot iframe
 function createChatbotFrame() {
-  // Create the iframe
   chatbotFrame = document.createElement("iframe");
   chatbotFrame.src = chrome.runtime.getURL("chatbot.html");
   chatbotFrame.id = "ai-chatbot-frame";
@@ -25,7 +22,6 @@ function createChatbotFrame() {
 
   document.body.appendChild(chatbotFrame);
 
-  // Create toggle button
   const toggleButton = document.createElement("div");
   toggleButton.id = "ai-chatbot-toggle";
   toggleButton.innerHTML =
@@ -49,26 +45,20 @@ function createChatbotFrame() {
 
   document.body.appendChild(toggleButton);
 
-  // Add click event to toggle button
   toggleButton.addEventListener("click", toggleChatbot);
 
-  // Listen for messages from the iframe
   window.addEventListener("message", handleFrameMessages);
 
-  // Check storage for initial visibility state
   chrome.storage.local.get(["isEnabled"], (result) => {
     if (result.isEnabled) {
-      isFrameVisible = false; // Start closed
+      isFrameVisible = false; 
     }
   });
 
-  // Add selection popup
   createSelectionPopupElement();
 
-  // Inject styles
   injectStyles();
 
-  // Get initial URL
   updateCurrentUrl();
 
   // Check if auto-scrape is enabled
@@ -79,20 +69,15 @@ function createChatbotFrame() {
     }
   });
 
-  // Listen for messages from background script
   chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === "updateChatbotState") {
-      // Update chatbot state
     } else if (message.action === "updateAIModel") {
-      // Update AI model
     } else if (message.action === "scrapePage") {
-      // Trigger page scraping
       chrome.runtime.sendMessage({ action: "scrapeCurrentPage" });
     }
   });
 }
 
-// Create a fixed selection popup element that we can reuse
 function createSelectionPopupElement() {
   selectionPopup = document.createElement("div");
   selectionPopup.id = "ai-selection-popup";
@@ -105,7 +90,6 @@ function createSelectionPopupElement() {
   selectionPopup.style.display = "none";
   document.body.appendChild(selectionPopup);
 
-  // Add event listeners to the buttons
   document
     .getElementById("ai-summarize-btn")
     .addEventListener("click", handleSummarize);
@@ -115,24 +99,18 @@ function createSelectionPopupElement() {
     .addEventListener("click", handleScrape);
 }
 
-// New function to handle scrape request
 function handleScrape() {
-  // Hide the popup
   selectionPopup.style.display = "none";
 
-  // Send message to background script to scrape current page
   chrome.runtime.sendMessage({ action: "scrapeCurrentPage" }, (response) => {
     if (response && response.success) {
-      // Show a success notification
       showNotification("Page content saved successfully!");
     } else {
-      // Show an error notification
       showNotification("Failed to save page content", true);
     }
   });
 }
 
-// Show a notification
 function showNotification(message, isError = false) {
   const notification = document.createElement("div");
   notification.textContent = message;
@@ -151,7 +129,6 @@ function showNotification(message, isError = false) {
 
   document.body.appendChild(notification);
 
-  // Remove after 3 seconds
   setTimeout(() => {
     notification.style.opacity = "0";
     notification.style.transition = "opacity 0.5s";
@@ -159,7 +136,6 @@ function showNotification(message, isError = false) {
   }, 3000);
 }
 
-// Inject CSS styles
 function injectStyles() {
   const styleElement = document.createElement("style");
   styleElement.textContent = `
@@ -217,7 +193,6 @@ function injectStyles() {
   document.head.appendChild(styleElement);
 }
 
-// Toggle chatbot visibility
 function toggleChatbot() {
   isFrameVisible = !isFrameVisible;
 
@@ -231,7 +206,6 @@ function toggleChatbot() {
   }
 }
 
-// Update the current URL
 function updateCurrentUrl() {
   chrome.runtime.sendMessage({ action: "getTabUrl" }, (response) => {
     if (response && response.url && chatbotFrame) {
@@ -246,7 +220,6 @@ function updateCurrentUrl() {
   });
 }
 
-// Handle URL changes
 function handleUrlChange() {
   const currentUrl = window.location.href;
   if (chatbotFrame) {
@@ -260,7 +233,6 @@ function handleUrlChange() {
   }
 }
 
-// Set up URL change monitoring
 let lastUrl = window.location.href;
 new MutationObserver(() => {
   const currentUrl = window.location.href;
@@ -270,9 +242,7 @@ new MutationObserver(() => {
   }
 }).observe(document, { subtree: true, childList: true });
 
-// Handle messages from the iframe
 function handleFrameMessages(event) {
-  // Check if the message is from our iframe
   if (!chatbotFrame || event.source !== chatbotFrame.contentWindow) return;
 
   const message = event.data;
@@ -310,22 +280,16 @@ function handleFrameMessages(event) {
   }
 }
 
-// On selection, show the popup
 document.addEventListener("mouseup", (e) => {
-  // Get the selection
   const selection = window.getSelection();
   const selectedText = selection.toString().trim();
 
-  // Hide the popup if it's visible
   selectionPopup.style.display = "none";
 
-  // If there's a substantial selection, show the popup
   if (selectedText.length > 10) {
-    // Position the popup near the selection
     const range = selection.getRangeAt(0);
     const rect = range.getBoundingClientRect();
 
-    // Calculate position to keep it in viewport
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     const scrollLeft =
       window.pageXOffset || document.documentElement.scrollLeft;
@@ -333,27 +297,22 @@ document.addEventListener("mouseup", (e) => {
     let left = rect.left + scrollLeft;
     let top = rect.bottom + scrollTop + 10;
 
-    // Store the selection for use in handlers
     selectionPopup.setAttribute("data-selection", selectedText);
 
-    // Position and show the popup
     selectionPopup.style.left = left + "px";
     selectionPopup.style.top = top + "px";
     selectionPopup.style.display = "flex";
   }
 });
 
-// Handle summarize button click
 function handleSummarize() {
   const selectedText = selectionPopup.getAttribute("data-selection");
 
   if (selectedText && chatbotFrame) {
-    // Make chatbot visible
     isFrameVisible = true;
     chatbotFrame.style.display = "block";
     document.getElementById("ai-chatbot-toggle").style.display = "none";
 
-    // Send message to summarize
     chatbotFrame.contentWindow.postMessage(
       {
         action: "summarize",
@@ -362,12 +321,10 @@ function handleSummarize() {
       "*"
     );
 
-    // Hide the popup
     selectionPopup.style.display = "none";
   }
 }
 
-// Handle ask button click
 function handleAsk() {
   const selectedText = selectionPopup.getAttribute("data-selection");
 
@@ -429,7 +386,6 @@ function createAskPopup(selectedText) {
       );
     }
 
-    // Remove the popup
     popupOverlay.remove();
   };
 }
