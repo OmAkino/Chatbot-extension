@@ -1,0 +1,44 @@
+/* Context menu styles */
+.ai-context-menu {
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .ai-context-menu button {
+    background: white;
+    border: none;
+    padding: 8px 12px;
+    display: block;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 14px;
+  }
+  
+  .ai-context-menu button:hover {
+    background: #f0f0f0;
+  }
+  
+  /* Popup overlay */
+  .ai-popup-overlay {
+    animation: fadeIn 0.2s ease;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  /* For accessibility */
+  #ai-chatbot-toggle:focus {
+    outline: 2px solid #5d9cec;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    #ai-chatbot-frame {
+      width: 85% !important;
+      right: 10px !important;
+    }
+  }

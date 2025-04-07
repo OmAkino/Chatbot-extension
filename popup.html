@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Chatbot Settings</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      width: 300px;
+      margin: 0;
+      padding: 15px;
+    }
+    h1 {
+      font-size: 18px;
+      margin-top: 0;
+      color: #333;
+    }
+    .setting-item {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+    select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    .toggle {
+      display: flex;
+      align-items: center;
+    }
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+      margin-right: 10px;
+    }
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 24px;
+    }
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    input:checked + .toggle-slider {
+      background-color: #5c6bc0;
+    }
+    input:checked + .toggle-slider:before {
+      transform: translateX(26px);
+    }
+    .footer {
+      margin-top: 20px;
+      font-size: 12px;
+      color: #666;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>AI Chatbot Settings</h1>
+  
+  <div class="setting-item toggle">
+    <label class="toggle-switch">
+      <input type="checkbox" id="enableChatbot" checked>
+      <span class="toggle-slider"></span>
+    </label>
+    <span>Enable Chatbot</span>
+  </div>
+  
+  <div class="setting-item">
+    <label for="aiModel">AI Model</label>
+    <select id="aiModel">
+      <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+      <option value="gpt-4">GPT-4</option>
+      <option value="claude-2">Claude 2</option>
+      <option value="custom">Custom</option>
+    </select>
+  </div>
+
+  <div class="footer">
+    AI Chatbot Extension v1.0
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>
