@@ -1,12 +1,13 @@
 {
     "manifest_version": 3,
     "name": "AI Chatbot Extension",
-    "description": "A togglable chatbot that appears in the bottom right of the screen",
+    "description": "A togglable chatbot that appears in the bottom right of the screen with web scraping capabilities",
     "version": "1.0",
     "permissions": [
       "activeTab",
       "storage",
-      "scripting"
+      "scripting",
+      "downloads"
     ],
     "host_permissions": [
       "<all_urls>"

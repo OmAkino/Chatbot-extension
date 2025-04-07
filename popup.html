@@ -74,11 +74,45 @@
     input:checked + .toggle-slider:before {
       transform: translateX(26px);
     }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #5c6bc0;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+    button:hover {
+      background-color: #4a59a7;
+    }
+    button:disabled {
+      background-color: #cccccc;
+      cursor: not-allowed;
+    }
+    .status {
+      font-size: 13px;
+      color: #666;
+      margin-top: 5px;
+    }
+    .success {
+      color: green;
+    }
+    .error {
+      color: red;
+    }
     .footer {
       margin-top: 20px;
       font-size: 12px;
       color: #666;
       text-align: center;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #eee;
+      margin: 15px 0;
     }
   </style>
 </head>
@@ -103,6 +137,22 @@
     </select>
   </div>
 
+  <hr>
+
+  <div class="setting-item">
+    <h2 style="font-size: 16px; margin-top: 0;">Page Content</h2>
+    <button id="scrapeButton">Scrape Current Page</button>
+    <div id="scrapeStatus" class="status"></div>
+  </div>
+
+  <div class="setting-item toggle">
+    <label class="toggle-switch">
+      <input type="checkbox" id="autoScrape">
+      <span class="toggle-slider"></span>
+    </label>
+    <span>Auto-scrape on page load</span>
+  </div>
+  
   <div class="footer">
     AI Chatbot Extension v1.0
   </div>
