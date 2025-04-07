@@ -4,10 +4,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const messageInput = document.getElementById("message-input");
   const sendBtn = document.getElementById("send-btn");
 
-  // Fetch the current tab's URL
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     if (tabs.length > 0) {
-      urlDisplay.textContent = tabs[0].url; // Display the URL
+      urlDisplay.textContent = tabs[0].url;
     } else {
       urlDisplay.textContent = "No active tab found";
     }
@@ -30,7 +29,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     addMessage(userMessage, "user");
 
-    // Simulating bot response
     setTimeout(() => {
       addMessage("I am just a simple bot!", "bot");
     }, 1000);
@@ -55,7 +53,6 @@ document.addEventListener("DOMContentLoaded", function () {
       userMessage.textContent = `User Selected: "${data.selectedText}"`;
       chatBox.appendChild(userMessage);
 
-      // Simulating AI response
       setTimeout(() => {
         const botMessage = document.createElement("div");
         botMessage.className = "alert alert-secondary";

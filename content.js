@@ -61,7 +61,6 @@ document.addEventListener("mouseup", function (event) {
 function sendToChatbot(text) {
     injectChatbot();
   
-    // Send selected text directly to chatbot iframe (no delay needed)
     chrome.runtime.sendMessage({ action: "updateChatbot", text: text });
   }
   

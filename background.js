@@ -16,22 +16,6 @@ chrome.tabs.onActivated.addListener((activeInfo) => {
   });
 });
 
-// chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-//   if (message.action === "summarize") {
-//     console.log("Summarizing:", message.text);
-//     chrome.storage.local.set({ selectedText: message.text }, () => {
-//       chrome.runtime.openOptionsPage(); // Open popup for response
-//     });
-//   }
-
-//   if (message.action === "askAI") {
-//     console.log("Asking AI:", message.text);
-//     chrome.storage.local.set({ selectedText: message.text }, () => {
-//       chrome.runtime.openOptionsPage();
-//     });
-//   }
-// });
-
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === "insertText") {
     chrome.storage.local.set(
@@ -55,6 +39,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         sendResponse({ url: null });
       }
     });
-    return true; // needed to allow async sendResponse
+    return true; 
   }
 });
